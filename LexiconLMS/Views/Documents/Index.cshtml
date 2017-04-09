@@ -1,0 +1,75 @@
+﻿@model IEnumerable<LexiconLMS.Models.Document>
+@{
+    ViewBag.Title = "Dokument";
+}
+
+@if (ViewBag.courseid !=null && ViewBag.modulname != null && ViewBag.activityname != null)
+{
+    <h4><span class="glyphicon glyphicon-arrow-up"></span>@Html.ActionLink("Kurs", "Index", "Courses"): <span class="alert-info">@ViewBag.coursename</span> <b> <span class="glyphicon glyphicon-arrow-right"></span> @Html.ActionLink("Modul", "ModuleFilter", "Modules", new { courseid = ViewBag.courseid }, null): <span class="alert-info">@ViewBag.modulname</span> @Html.ActionLink("Activity", "ActivityFilter", "Activities", new { modulid = ViewBag.modulid }, null): <span class="alert-info">@ViewBag.activityname</span><b> <span class="glyphicon glyphicon-arrow-right"></span> Dokument</b></h4>
+
+}
+else if (ViewBag.modulname == null && ViewBag.activityname == null)
+{
+    <h4><span class="glyphicon glyphicon-arrow-up"></span>@Html.ActionLink("Kurs", "Index", "Courses"): <span class="alert-info">@ViewBag.coursename</span> <b> <span class="glyphicon glyphicon-arrow-right"></span>Dokument</b></h4>
+}
+
+else if (ViewBag.courseid != null && ViewBag.modulname != null && ViewBag.activityname == null)
+{
+    <h4><span class="glyphicon glyphicon-arrow-up"></span>@Html.ActionLink("Kurs", "Index", "Courses"): <span class="alert-info">@ViewBag.coursename</span> <b> <span class="glyphicon glyphicon-arrow-right"></span> @Html.ActionLink("Modul", "ModuleFilter", "Modules", new { courseid = ViewBag.courseid }, null): <span class="alert-info">@ViewBag.modulname</span> Dokument</b></h4>
+}
+    @*@if (ViewBag.modulname != null)
+        {
+            <h4><span class="glyphicon glyphicon-arrow-up"></span>@Html.ActionLink("Modul", "ModuleFilter", "Modules", new { courseid = @ViewBag.courseid }): <span class="alert-info">@ViewBag.coursename</span> <b> <span class="glyphicon glyphicon-arrow-right"></span> Dokument</b></h4>
+        }*@
+
+
+    @using (Html.BeginForm("Upload", "Documents", FormMethod.Post,
+                   new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <span class="btn btn-default btn-file">
+                @Html.TextBox("file", "", new { type = "file" })
+            </span>
+            
+                <button class="btn btn-default" type="submit" >
+                  Ladda upp
+                </button>
+                
+          
+        </div>
+    }
+    <table class="table table-striped">
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.DocumentId)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+
+
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.DocumentId)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+
+
+                <td>
+                    @Html.ActionLink("Ladda ner", "GetFileFromDisk", new { documenid = item.DocumentId })
+
+                </td>
+                <td>
+                    @Html.ActionLink("Ta bort", "Delete", new { id = item.DocumentId })
+                </td>
+            </tr>
+        }
+    </table>

@@ -1,0 +1,107 @@
+﻿﻿@model IEnumerable<LexiconLMS.Models.Activity>
+@using LexiconLMS.Models;
+@{
+    ViewBag.Title = "Aktiviteter";
+}
+@if (ViewBag.modulname != null)
+{
+    <h4><span class="glyphicon glyphicon-arrow-up"></span>@Html.ActionLink("Kurs", "Index", "Courses"): <span class="alert-info">@ViewBag.coursename</span> <b> / </b> <span class="glyphicon glyphicon-arrow-up"></span>@Html.ActionLink("Modul", "ModuleFilter", "Modules", new { courseid = ViewBag.courseid }, null): <span class="alert-info">@ViewBag.modulname</span> <b> <span class="glyphicon glyphicon-arrow-right"></span> Aktiviteter</b></h4>
+   }
+<p>
+    @Html.ActionLink("Lägg till", "Create",new { modulid = ViewBag.modulid, coursename = ViewBag.coursename, modulname = ViewBag.modulname })
+</p>
+@*@if (TempData["successmessage"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        @TempData["successmessage"]
+    </div>
+}*@
+<div>
+    @using (Html.BeginForm("Index", "Activities", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <p class="breadcrumb">
+                    <br />
+                    @*@Html.DropDownList("Alternative")*@
+                    @Html.TextBox("SearchString")
+                    <input type="submit" value="Sök" />
+                </p>
+            </div>
+        </div>
+    }
+</div>
+<table class="table table-hover table-striped sortable">
+    <thead>
+        <tr>
+            @*<th data-defaultsort="asc"> 
+                @Html.DisplayNameFor(model => model.Module.Course.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Module.Name)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityType.TypeName)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ModuleId)
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Module.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Module.Name)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityType.TypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ModuleId)
+                    </td>*@
+                <td>
+                    @*@Html.ActionLink("Dokument", "DocumentFilter", "documents", new { courseid = ViewBag.courseid, modulid = ViewBag.modulid, activityid = ViewBag.activityid }, null)*@ 
+                    
+                    @Html.ActionLink("Ändra", "Edit", new { id = item.ActivityId, modulid = ViewBag.modulid, coursename = ViewBag.coursename }) |
+                    @Html.ActionLink("Dokument", "DocumentFilter", "documents", new { courseid = ViewBag.courseid, modulid = ViewBag.modulid, activityid = item.ActivityId}, null) |
+
+                    @*  @Html.ActionLink("Detaljer", "Details", new { id = item.ActivityId }) |*@
+                    @Html.ActionLink("Ta bort", "Delete", new { id = item.ActivityId, modulid = ViewBag.modulid })
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>
+

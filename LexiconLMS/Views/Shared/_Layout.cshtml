@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Lexicon LMS</title>
+    @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap1.css" rel="stylesheet" />*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href='@Url.Action("Index", "Home")'>
+                    <img src='@Url.Content("~/images/logo-lexicon.gif")' />
+                </a>
+            </div>
+           
+               
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                @if (User.IsInRole("Teacher"))
+                {
+                    <li>@Html.ActionLink("Kurser", "Index", "Courses")</li>
+                    <li>@Html.ActionLink("Elever", "Index", "ManageStudents")</li>
+                    <li>@Html.ActionLink("Lärare", "Index", "ManageTeachers")</li>
+
+                }
+                else if (User.IsInRole("Student"))
+                {
+                    <li>@Html.ActionLink("Kurs", "Studentmodules", "Students")</li>
+                    <li>@Html.ActionLink("Kursaktiviteter", "Activitylist", "Students")</li>
+                    <li>@Html.ActionLink("Kursdeltagare", "Studentlist", "Students")</li>
+                }
+                </ul>
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+      
+        <ol class="breadcrumb">
+
+
+            @if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
+            {
+                @Html.ActionLink("Home", "Index", "Home")
+                <li class="active">
+                    / @ViewBag.Title
+                </li>
+            }
+            else
+            {
+                <li class="active">
+                    Home
+                </li>
+            }
+
+        </ol>
+        <p>
+            @if (TempData["successmessage"] != null)
+            {
+                <div class="alert alert-success fade in">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    @TempData["successmessage"]
+                </div>
+            }
+        </p>
+        @RenderBody()
+        <hr />
+        <footer class="modal-footer">
+            <p>&copy; @DateTime.Now.Year - LEXICON AB</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

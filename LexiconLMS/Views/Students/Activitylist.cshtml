@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LexiconLMS.Models.Activity>
+
+@{
+    ViewBag.Title = "Kursaktiviteter";
+}
+
+<h3>Kurs @ViewBag.coursename, @ViewBag.coursedescription (@ViewBag.coursestartdate.ToString("yyy-MM-dd") - @ViewBag.courseenddate.ToString("yyy-MM-dd"))</h3>
+<h4>@ViewBag.Title</h4>
+
+
+<table class="table table-hover sortable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Module.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityType.TypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+
+        </tr>
+    </thead>
+
+@foreach (var item in Model)
+{
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Module.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityType.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+
+        </tr>
+    </tbody>
+}
+
+</table>
